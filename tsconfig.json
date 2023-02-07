@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    // 指定 ECMAScript 目标版本
+    "target": "ESNext",
+    // 指定生成哪个模块系统代码
+    "module": "ESNext",
+    // 编译过程中需要引入的库文件的列表
+    "lib": ["DOM", "esnext", "WebWorker", "dom.iterable"],
+    // 生成代码中保留 JSX 以供后续的 Babel 转换操作使用
+    "jsx": "react-jsx",
+    // 生成相应的.map 文件
+    "sourceMap": true,
+    // 输出目录
+    "outDir": "./dist",
+    // 启用所有严格类型检查选项
+    "strict": true,
+    // 有未使用的局部变量时报错
+    "noUnusedLocals": true,
+    // 有未使用的参数时报错
+    "noUnusedParameters": true,
+    // 不是函数的所有返回路径都有返回值时报错
+    "noImplicitReturns": false,
+    // 不允许 switch 的 case 语句贯穿，即必须包含 break 或 return
+    "noFallthroughCasesInSwitch": true,
+    // 以 Node 包模式处理模块
+    "moduleResolution": "node",
+    // 解析非相对模块名的基准目录
+    "baseUrl": "./",
+    // 模块名到基于 baseUrl 的路径映射的列表
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "types": ["vite/client"],
+    // 允许从没有设置默认导出的模块中默认导入: import * as a from 'a' -> import a from 'a'
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    // 忽略所有的声明文件（ *.d.ts）的类型检查
+    "skipLibCheck": true,
+    // 禁止对同一个文件的不一致的引用
+    "forceConsistentCasingInFileNames": true,
+    // 允许解析 JSON 模块
+    "resolveJsonModule": true
+  },
+  "include": ["src", "vite.config.ts"],
+  "exclude": ["node_modules"]
+}
