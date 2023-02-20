@@ -1,0 +1,80 @@
+{
+  // 设置换行符为\n（Newline）
+  "files.eol": "\n",
+  // 设置 Tab 缩进为 2 个空格
+  "editor.tabSize": 2,
+  // 设置让json文件支持注释
+  "files.associations": {
+    "*.json": "jsonc"
+  },
+  // 不在工作区显示本地文件历史
+  "files.exclude": {
+    "**/.history": true
+  },
+  // 不监控和检索本地文件历史
+  "files.watcherExclude": {
+    "**/.history/**": true
+  },
+  // 关闭编辑器对 JavaScript 文件的建议诊断（以ESLint为准）
+  "javascript.suggestionActions.enabled": false,
+  // 设置ts解析器目录
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  // 粘贴时格式化代码
+  "editor.formatOnPaste": true,
+  // 保存时格式化代码
+  "editor.formatOnSave": true,
+  // 格式化工具统一使用 Prettier
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // 将 ESLint 作为格式化器使用
+  "eslint.format.enable": true,
+  // 关闭全局的 lint:fix，按文件区分配置
+  "editor.codeActionsOnSave": {
+    "source.fixAll": false
+  },
+  // 为避免用户设定覆盖工作区设定，单独设置文件类型的格式化工具
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // css/less 文件统一使用集成 Prettier 的 Stylelint fix
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.stylelint": true
+    }
+  },
+  "[less]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.stylelint": true
+    }
+  },
+  // js/ts/jsx/tsx 统一使用集成 Prettier 的 ESLint fix
+  "[javascript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  },
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  },
+  "[javascriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  },
+  "[typescriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  }
+}
