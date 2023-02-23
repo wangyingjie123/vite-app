@@ -20,5 +20,22 @@ export default defineConfig({
       generateScopedName: '[local]___[hash:base64:5]',
     },
   },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'), // map '@' to './src'
+    },
+  },
   plugins: [react(), eslintPlugin()],
+  server: {
+    host: '0.0.0.0',
+    port: 3333,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000', // 内网
+        changeOrigin: true,
+        // secure: false, // 忽略证书校验
+        // rewrite: (path) => path.replace(/^\/digital_human_api/, ''),
+      },
+    },
+  },
 });

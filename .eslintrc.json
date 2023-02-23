@@ -11,16 +11,14 @@
     "sourceType": "module"
   },
   "extends": [
-    "airbnb", // airbnb规范
-    "airbnb-typescript",
     // 官方eslint内置规范
-    // "eslint:recommended",
-    // "plugin:react/recommended",
-    // "plugin:@typescript-eslint/recommended",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
   // 使用airbnb规范无需引入
-  // "plugins": ["react", "react-hooks", "import", "@typescript-eslint", "prettier"],
+  "plugins": ["react", "react-hooks", "import", "@typescript-eslint", "prettier"],
   "rules": {
     "prettier/prettier": "error",
     // 强制一行的最大长度，限制单行不能超过 120 个字符，字符串和正则表达式除外
@@ -35,12 +33,6 @@
         "ignoreTemplateLiterals": true
       }
     ],
-    // 导入排序-airbnb已内置
-    // "import/order": ["error", { "groups": ["external", "builtin", "internal", "sibling", "parent", "index"] }],
-    // "no-duplicate-imports": ["error", { "includeExports": true }],
-    // airbnb下的规则-先关闭
-    "import/no-extraneous-dependencies": "off",
-    "import/extensions": "off",
     // 是否开头引入react
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",

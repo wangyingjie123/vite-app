@@ -1,30 +1,22 @@
-import { useState } from 'react';
-import { Button } from 'antd';
-import reactLogo from './assets/react.svg';
-import style from './App.module.less';
+import { ConfigProvider } from 'antd';
+// 由于 antd 组件的默认文案是英文，所以需要修改为中文
+import dayjs from 'dayjs';
+import { HashRouter } from 'react-router-dom';
+import 'dayjs/locale/zh-cn';
+import zhCN from 'antd/locale/zh_CN';
+import 'antd/dist/reset.css';
+import '@/assets/styles/global.less';
+import Router from '@/routers/index';
+
+dayjs.locale('zh-cn');
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src="/vite.svg" className={style.logo} alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className={`${style.logo} ${style.logo}`} alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <Button onClick={() => setCount((num) => num + 1)}>count is {count}</Button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </div>
+    <HashRouter>
+      <ConfigProvider locale={zhCN}>
+        <Router />
+      </ConfigProvider>
+    </HashRouter>
   );
 }
 
