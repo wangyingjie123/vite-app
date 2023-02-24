@@ -1,11 +1,13 @@
 import { Dropdown, Avatar } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import { useStore } from '@/store';
 import type { MenuProps } from 'antd';
 import avatarImg from '@/assets/images/avatar.png';
 
 const HeaderAvatar = observer(() => {
   const navigate = useNavigate();
+  const { userInfo, logout } = useStore('User');
   const items: MenuProps['items'] = [
     {
       key: '1',
@@ -23,14 +25,14 @@ const HeaderAvatar = observer(() => {
     {
       key: '4',
       label: <span className="dropdown-item">退出登录</span>,
-      // onClick: () => signOut(),
+      onClick: () => logout(),
     },
   ];
   return (
     <div className="ai-header-avatar">
-      <span>kevin durant</span>
+      <span>{userInfo?.name}</span>
       <Dropdown menu={{ items }} placement="bottom" arrow trigger={['click']}>
-        <Avatar className="ai-header-avatar-img" src={avatarImg} />
+        <Avatar className="ai-header-avatar-img" src={userInfo?.avatarThumb ?? avatarImg} />
       </Dropdown>
     </div>
   );
