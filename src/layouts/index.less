@@ -1,32 +1,15 @@
 .container {
-	display: flex;
-	min-width: @min-width;
-	height: 100%;
-
-	.ant-layout-sider {
-		&::-webkit-scrollbar {
-			background-color: #001529;
-		}
-
-		&::-webkit-scrollbar-thumb {
-			background-color: #41444b;
-		}
-	}
-
-	.ant-layout {
-		/* 防止 tabs 超出不收缩 */
-		overflow-x: hidden;
-
-		.ant-layout-content {
-			box-sizing: border-box;
-			margin: 15px 15px 0;
-			overflow: auto;
-			flex: 1;
-		}
-
-		.content {
-			display: flex;
-			flex-direction: column;
-		}
-	}
+  min-width: @min-width;
+  height: 100%;
+  &-main {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    margin: 15px 15px 0;
+    overflow: auto;
+    flex: 1;
+  }
+  .ant-layout {
+    overflow-x: hidden;
+  }
 }

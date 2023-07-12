@@ -73,7 +73,7 @@ const LayoutMenu = () => {
     <div className="menu">
       <Logo isCollapse={collapsed}></Logo>
       <Menu
-        theme="dark"
+        theme="light"
         mode="inline"
         triggerSubMenuAction="click"
         onClick={clickMenu}

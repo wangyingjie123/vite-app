@@ -46,9 +46,9 @@ function SiderLayout() {
       >
         <LayoutMenu />
       </Sider>
-      <Layout className="content-wrapper">
+      <Layout>
         <Header />
-        <Content className="content noscrollbar">
+        <Content className="container-main noscrollbar">
           <Outlet />
           <Footer />
         </Content>
