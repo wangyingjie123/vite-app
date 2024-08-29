@@ -67,7 +67,9 @@ const LayoutMenu = () => {
   useEffect(() => {
     setSelectedKeys([pathname]);
     const selectPath = getOpenKeys(pathname);
-    collapsed ? null : setOpenKeys(selectPath);
+    if (collapsed) {
+      setOpenKeys(selectPath);
+    }
   }, [pathname, collapsed]);
   return (
     <div className="menu">

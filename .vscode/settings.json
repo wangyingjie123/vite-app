@@ -29,7 +29,7 @@
   "eslint.format.enable": true,
   // 关闭全局的 lint:fix，按文件区分配置
   "editor.codeActionsOnSave": {
-    "source.fixAll": false
+    "source.fixAll": "always"
   },
   // 为避免用户设定覆盖工作区设定，单独设置文件类型的格式化工具
   "[html]": {
@@ -46,35 +46,35 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
-      "source.fixAll.stylelint": true
+      "source.fixAll.stylelint": "always"
     }
   },
   "[less]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": false,
     "editor.codeActionsOnSave": {
-      "source.fixAll.stylelint": true
+      "source.fixAll.stylelint": "always"
     }
   },
   // js/ts/jsx/tsx 统一使用集成 Prettier 的 ESLint fix
   "[javascript]": {
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+      "source.fixAll.eslint": "always"
     }
   },
   "[typescript]": {
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+      "source.fixAll.eslint": "always"
     }
   },
   "[javascriptreact]": {
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+      "source.fixAll.eslint": "always"
     }
   },
   "[typescriptreact]": {
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+      "source.fixAll.eslint": "always"
     }
   }
 }
