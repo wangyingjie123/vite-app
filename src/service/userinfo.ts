@@ -1,5 +1,5 @@
-import { request } from '@/utils/axios';
 import type { UserInfo } from '@/types/user';
+import { request } from '@/utils/axios';
 
 export function getUserInfo(): Promise<UserInfo> {
   return request({

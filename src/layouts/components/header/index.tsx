@@ -1,7 +1,9 @@
-import { Layout } from 'antd';
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons';
+import { Layout } from 'antd';
 import { observer } from 'mobx-react-lite';
+
 import Avatar from './avatar';
+
 import { useStore } from '@/store';
 import './index.less';
 

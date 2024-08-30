@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react';
-import { observer } from 'mobx-react-lite';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu } from 'antd';
-
-import { getOpenKeys } from '@/utils/handle-routes';
-import { useStore } from '@/store';
-import Logo from './logo';
-import { routers } from '@/routers';
-
 import type { MenuProps } from 'antd';
+import { observer } from 'mobx-react-lite';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+import Logo from './logo';
+
+import { routers } from '@/routers';
+import { useStore } from '@/store';
 import type { RouteObject } from '@/types/routers';
+import { getOpenKeys } from '@/utils/handle-routes';
+
 import './index.less';
 
 // 定义 menu 类型

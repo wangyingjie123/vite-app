@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react';
 import { Table, App } from 'antd';
+import { useState, useEffect } from 'react';
+
 import getColumns from './column';
+
 import PageCard from '@/components/page-card';
 import { getUserInfoList } from '@/service/userinfo';
 import type { UserInfo } from '@/types/user';

@@ -1,12 +1,14 @@
+import { Layout, App } from 'antd';
+import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { observer } from 'mobx-react-lite';
-import { Layout, App } from 'antd';
-import Header from './components/header';
+
 import Footer from './components/footer';
+import Header from './components/header';
 import LayoutMenu from './components/menu';
-import { useStore } from '@/store';
+
 import { getUserInfo } from '@/service/userinfo';
+import { useStore } from '@/store';
 import './index.less';
 
 const { Content, Sider } = Layout;

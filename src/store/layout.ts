@@ -1,5 +1,5 @@
-import { createContext } from 'react';
 import { observable, action, makeObservable, runInAction } from 'mobx';
+import { createContext } from 'react';
 
 type Themes = 'light' | 'dark';
 

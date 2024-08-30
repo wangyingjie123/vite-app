@@ -1,5 +1,5 @@
-import { FC } from 'react';
 import { Card, Typography } from 'antd';
+import { FC } from 'react';
 
 interface PageCardProps {
   extra?: React.ReactNode;

@@ -1,9 +1,10 @@
 import { Dropdown, Avatar } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { observer } from 'mobx-react-lite';
-import { useStore } from '@/store';
 import type { MenuProps } from 'antd';
+import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
+
 import avatarImg from '@/assets/images/avatar.png';
+import { useStore } from '@/store';
 
 const HeaderAvatar = observer(() => {
   const navigate = useNavigate();

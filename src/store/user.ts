@@ -1,8 +1,9 @@
-import { createContext } from 'react';
 import { observable, makeObservable, runInAction } from 'mobx';
+import { createContext } from 'react';
+
 import { loginByFeishu } from '@/service/userinfo';
-import { getCookie, delCookie } from '@/utils/cookie';
 import type { UserInfo } from '@/types/user';
+import { getCookie, delCookie } from '@/utils/cookie';
 
 export class UserStore {
   token = getCookie('jwt') || '';

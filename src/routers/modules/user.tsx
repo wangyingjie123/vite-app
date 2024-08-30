@@ -1,7 +1,8 @@
-import React from 'react';
 import { CustomerServiceOutlined, FileSyncOutlined } from '@ant-design/icons';
-import lazyLoad from '@/routers/utils/lazyLoad';
+import React from 'react';
+
 import { LayoutIndex } from '@/routers/constant';
+import lazyLoad from '@/routers/utils/lazyLoad';
 import type { RouteObject } from '@/types/routers';
 
 // 常用组件模块

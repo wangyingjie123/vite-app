@@ -1,7 +1,8 @@
 import { useRoutes, Navigate } from 'react-router-dom';
-import NotDefined from '@/pages/404';
+
 import userRouters from './modules/user';
 
+import NotDefined from '@/pages/404';
 import type { RouteObject } from '@/types/routers';
 
 export const routers: RouteObject[] = [
