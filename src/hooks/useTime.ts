@@ -5,7 +5,7 @@ import { useEffect, useState, useRef } from 'react';
  * @description 获取本地时间
  */
 export const useTimes = () => {
-  const timer = useRef<NodeJS.Timeout | null>(null);
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
   const [time, setTime] = useState(dayjs().format('YYYY年MM月DD日 HH:mm:ss'));
   useEffect(() => {
     timer.current = setInterval(() => {
@@ -13,7 +13,7 @@ export const useTimes = () => {
     }, 1000);
     return () => {
       if (timer.current) {
-        clearInterval(timer.current as NodeJS.Timeout);
+        clearInterval(timer.current);
         timer.current = null;
       }
     };

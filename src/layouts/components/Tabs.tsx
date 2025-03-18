@@ -234,7 +234,7 @@ function LayoutTabs() {
       {tabs.length > 0 ? (
         <Tabs
           hideAdd
-          className={`w-[calc(100%-110px)] h-30px py-0 ${styles['layout-tabs']}`}
+          className={`w-[calc(100%-110px)] h-40px py-0 ${styles['layout-tabs']}`}
           items={[...tabs]}
           onChange={onChange}
           activeKey={activeKey}
@@ -254,8 +254,8 @@ function LayoutTabs() {
                 left-divide-tab
                 change
                 divide-solid
-                w-36px
-                h-36px
+                w-40px
+                h-40px
                 hover:opacity-70
                 flex
                 place-content-center

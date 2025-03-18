@@ -15,7 +15,7 @@ import { checkPermission } from '@/utils/permissions';
 
 // 初始化搜索
 const initSearch = {
-  pay_date: ['2022-10-19', '2022-10-29'],
+  pay_date: ['2025-03-10', '2025-03-18'],
 };
 
 function Dashboard() {

@@ -1,5 +1,5 @@
 export default {
-  currentName: '后台管理系统',
+  currentName: 'AI数据管理',
   total: '总数',
   date: '日期',
   search: '搜索',

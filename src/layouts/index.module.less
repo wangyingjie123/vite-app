@@ -1,4 +1,4 @@
-@import url("@/assets/css/default.less");
+@import url('@/assets/css/default.less');
 
 .header {
   position: fixed;
@@ -27,12 +27,12 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: @layout-left !important;
+  width: @layout-left;
   background-color: #000;
 }
 
 .menu-close {
-  width: @layout-left-close !important;
+  width: @layout-left-close;
 }
 
 .con {
@@ -69,19 +69,7 @@
 }
 
 .layout-tabs {
-  :global(.ant-tabs-tab-active){
-    background-color: #1d4ed8 !important;
-  }
-
-  :global(.ant-tabs-tab-active .ant-tabs-tab-btn) {
-    color: #fff !important;
-  }
-
-  :global(.ant-tabs-tab-active .ant-tabs-tab-remove) {
-    color: #fff !important;
-  }
-
-  :global(.ant-tabs-tab) {
-    padding: 5px 16px 8px !important;
+  :global(>.ant-tabs-nav .ant-tabs-tab) {
+    padding: 5px 16px 8px;
   }
 }
