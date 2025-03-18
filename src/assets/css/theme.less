@@ -1,0 +1,59 @@
+/**
+ * 修改主题
+ * @param color - 字体颜色
+ * @param bg-color - 背景颜色
+ * @param layout-content-bg - layout内容背景色
+ * @param content-bg-color - 内容背景颜色
+ * @param svg-color - svg颜色
+ */
+.changeTheme(
+  @color,
+  @bg-color,
+  @layout-content-bg,
+  @content-bg-color,
+  @svg-color
+) {
+  color: @color !important;
+  background-color: @bg-color !important;
+
+  .bg {
+    background-color: @bg-color !important;
+  }
+
+  .change svg {
+    color: @svg-color !important;
+  }
+
+  a,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: @color !important;
+  }
+
+  #layout-content {
+    background-color: @layout-content-bg !important;
+  }
+
+  #card {
+    background-color: @content-bg-color !important;
+  }
+
+  // 富文本
+  .w-e-toolbar,
+  .w-e-bar-item button,
+  .w-e-text-container {
+    color: @color !important;
+    background-color: @bg-color !important;
+    fill: @color !important;
+  }
+
+  #header,
+  #layout {
+    color: @color !important;
+    background-color: @bg-color !important;
+  }
+}

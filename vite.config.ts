@@ -1,42 +1,39 @@
-import path from 'path';
+import { defineConfig, loadEnv } from 'vite';
 
-import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
-import eslintPlugin from 'vite-plugin-eslint';
+import { createVitePlugins } from './build/plugins';
+import { handleEnv } from './build/utils/helper';
+import { buildOptions } from './build/vite/build';
+import { createProxy } from './build/vite/proxy';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  css: {
-    preprocessorOptions: {
-      less: {
-        modifyVars: {
-          // 可使用全局less变量
-          hack: `true; @import (reference) "${path.resolve(__dirname, './src/assets/styles/mixin.less')}";`,
+export default defineConfig(({ mode }) => {
+  const root = process.cwd();
+  const env = loadEnv(mode, root);
+  const viteEnv = handleEnv(env);
+  const { VITE_SERVER_PORT, VITE_PROXY } = viteEnv;
+
+  return {
+    plugins: createVitePlugins(),
+    resolve: {
+      alias: {
+        '@': '/src',
+        '#': '/types',
+      },
+    },
+    css: {
+      preprocessorOptions: {
+        less: {
+          javascriptEnabled: true,
+          charset: false,
         },
-        javascriptEnabled: true,
       },
     },
-    modules: {
-      localsConvention: 'camelCase',
-      generateScopedName: '[local]___[hash:base64:5]',
+    server: {
+      open: true,
+      port: VITE_SERVER_PORT,
+      // 跨域处理
+      proxy: createProxy(VITE_PROXY),
     },
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'), // map '@' to './src'
-    },
-  },
-  plugins: [react(), eslintPlugin()],
-  server: {
-    host: '0.0.0.0',
-    port: 3333,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000', // 内网
-        changeOrigin: true,
-        // secure: false, // 忽略证书校验
-        // rewrite: (path) => path.replace(/^\/digital_human_api/, ''),
-      },
-    },
-  },
+    build: buildOptions(),
+  };
 });

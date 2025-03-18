@@ -1,6 +1,4 @@
 import eslint from '@eslint/js';
-import tsEslintPlugin from '@typescript-eslint/eslint-plugin';
-import tsEslintParser from '@typescript-eslint/parser';
 import PluginImport from 'eslint-plugin-import-x';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import reactPlugin from 'eslint-plugin-react';
@@ -22,12 +20,12 @@ const globalRules = {
       ignoreTemplateLiterals: true,
     },
   ],
-  'import/first': 2,
-  'import/no-duplicates': 2,
-  'import/no-mutable-exports': 2,
-  'import/no-named-default': 2,
-  'import/no-self-import': 2,
-  'import/no-default-export': 2,
+  // 'import/first': 2,
+  // 'import/no-duplicates': 2,
+  // 'import/no-mutable-exports': 2,
+  // 'import/no-named-default': 2,
+  // 'import/no-self-import': 2,
+  'import/no-default-export': 0,
   'import/order': [
     'error',
     {
@@ -39,33 +37,15 @@ const globalRules = {
       },
     },
   ],
+  '@typescript-eslint/no-unused-expressions': 0,
   '@typescript-eslint/no-explicit-any': 0,
-  '@typescript-eslint/no-non-null-assertion': 2,
+  '@typescript-eslint/no-non-null-assertion': 0,
 };
-// 使用tsEslintParser自定义配置
-export const customTsFlatConfig = [
-  {
-    name: 'typescript-eslint/base',
-    languageOptions: {
-      parser: tsEslintParser,
-      sourceType: 'module',
-    },
-    files: ['**/*.{ts,tsx}'],
-    rules: {
-      ...tsEslintPlugin.configs.recommended.rules,
-      ...globalRules,
-    },
-    plugins: {
-      // ts 语法特有的规则，例如泛型
-      '@typescript-eslint': tsEslintPlugin,
-    },
-  },
-];
 
 const flatConfig = [
   {
     name: 'react-eslint',
-    files: ['**/*.{js,jsx,mjs,cjs,ts,tsx}'],
+    files: ['**/*.{ts,tsx}'],
     plugins: {
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
@@ -119,5 +99,3 @@ export default tsEslint.config(
   ...tsEslint.configs.recommended,
   ...flatConfig
 );
-
-// export default [eslint.configs.recommended, eslintPluginPrettierRecommended, ...flatConfig, ...customTsFlatConfig];
