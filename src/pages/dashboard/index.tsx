@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Block from './components/Block';
+import Upload from './components/Upload';
 import { searchList } from './model';
 
 import type { FormData } from '#/form';
@@ -54,10 +55,10 @@ function Dashboard() {
   }, []);
 
   useEffectOnActive(() => {
-    console.log('第二次进入和退出时执行');
+    // console.log('第二次进入和退出时执行');
 
     return () => {
-      console.log('第二次退出时执行');
+      // console.log('第二次退出时执行');
     };
   }, []);
 
@@ -82,6 +83,9 @@ function Dashboard() {
           <div className={`mb-10px ${isPhone ? 'w-full' : 'w-49.5%'}`}></div>
           <div className={`mb-10px ${isPhone ? 'w-full' : 'w-49.5%'}`}></div>
         </div>
+      </BaseCard>
+      <BaseCard className="mt-10px">
+        <Upload />
       </BaseCard>
     </BaseContent>
   );

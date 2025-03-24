@@ -35,6 +35,7 @@
     "keepalive-for-react": "^4.0.2",
     "lodash": "^4.17.21",
     "nprogress": "^0.2.0",
+    "p-limit": "^6.2.0",
     "rc-resize-observer": "^1.4.3",
     "react": "19.0.0",
     "react-dom": "19.0.0",
