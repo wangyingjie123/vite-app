@@ -13,13 +13,12 @@ function Dynamic() {
   return (
     <BaseContent isPermission={isPermission}>
       <BaseCard className="mt-10px mx-5px">
-        <div>/demo/123/dynamic中的123为动态参数，可自由修改，文件路径为：/demo/[id]/dynamic。</div>
         <div>
-          id: <span className="font-bold">{id}</span>
+          /demo/{id}/dynamic中的<span className="font-bold">{id}</span>
+          为动态参数，可自由修改，文件路径为：/demo/[id]/dynamic。
         </div>
       </BaseCard>
     </BaseContent>
   );
 }
-
 export default Dynamic;

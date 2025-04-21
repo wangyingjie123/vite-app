@@ -1,12 +1,10 @@
 export default {
   title: '数据展览',
-  rechargeRankingDay: '当日充值排行',
-  rechargeAmount: '充值数',
+  fileNumber: '文件数',
   usersNumber: '用户数',
-  orderNumber: '订单数',
-  gameNumber: '游戏数',
+  folderNumber: '文件夹数',
+  uploadToday: '当日上传',
   gameID: '游戏ID',
-  effectiveRechargeRatio: '有效充值占比',
   cooperativeCompany: '合作公司',
   fullServerRecharge: '全服充值',
 };

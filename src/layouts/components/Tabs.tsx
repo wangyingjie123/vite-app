@@ -114,7 +114,7 @@ function LayoutTabs() {
         toggleLock(false);
       }
     }
-  }, [activeKey, uri]);
+  }, [uri]);
 
   /**
    * 处理更改
@@ -129,7 +129,7 @@ function LayoutTabs() {
    * @param targetKey - 目标key值
    */
   const remove = (targetKey: string) => {
-    closeTabs(targetKey);
+    closeTabs(targetKey, navigate);
   };
 
   /**

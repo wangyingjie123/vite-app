@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/react';
-import { Menu } from 'antd';
+import { Menu, Layout } from 'antd';
 import type { MenuProps } from 'antd';
+import classnames from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -23,6 +24,7 @@ import {
 import { useMenuStore, useTabsStore } from '@/stores';
 import { setTitle } from '@/utils/helper';
 
+const { Sider } = Layout;
 function LayoutMenu() {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
@@ -33,7 +35,7 @@ function LayoutMenu() {
 
   const { tabs, addTabs, setNav, setActiveKey } = useTabsStore((state) => state);
   const { setOpenKeys, setSelectedKeys, toggleCollapsed } = useMenuStore((state) => state);
-  const { isMaximize, isCollapsed, isPhone, openKeys, selectedKeys, permissions, menuList } = useCommonStore();
+  const { isCollapsed, isMaximize, isPhone, openKeys, selectedKeys, theme, permissions, menuList } = useCommonStore();
 
   // 处理默认展开
   useEffect(() => {
@@ -169,34 +171,29 @@ function LayoutMenu() {
   };
 
   return (
-    <>
+    <Sider
+      breakpoint="xl"
+      className={classnames(isMaximize || (isPhone && isCollapsed) ? 'hidden' : '', styles['layout-slider'])}
+      width={240}
+      collapsed={isCollapsed}
+      theme={theme}
+      onBreakpoint={toggleCollapsed}
+    >
       <div
-        className={`
-          transition-all
-          overflow-auto
-          z-2
-          ${styles.menu}
-          ${isCollapsed ? styles['menu-close'] : ''}
-          ${isMaximize || (isPhone && isCollapsed) ? styles['menu-none'] : ''}
-          ${isPhone ? '!z-1002' : ''}
-        `}
+        className={classnames(
+          'flex',
+          'content-center',
+          'px-5',
+          'py-2',
+          'cursor-pointer',
+          isCollapsed ? 'justify-center' : '',
+          styles['logo-box']
+        )}
+        onClick={onClickLogo}
       >
-        <div
+        <img src={Logo} width={30} height={30} className="object-contain" alt="logo" />
+        <h3
           className={`
-            text-white
-            flex
-            content-center
-            px-5
-            py-2
-            cursor-pointer
-            ${isCollapsed ? 'justify-center' : ''}
-          `}
-          onClick={onClickLogo}
-        >
-          <img src={Logo} width={30} height={30} className="object-contain" alt="logo" />
-
-          <span
-            className={`
             text-white
             ml-3
             text-xl
@@ -204,40 +201,22 @@ function LayoutMenu() {
             truncate
             ${isCollapsed ? 'hidden' : ''}
           `}
-          >
-            {t('public.currentName')}
-          </span>
-        </div>
-
-        <Menu
-          id="layout-menu"
-          className="z-1000"
-          selectedKeys={[selectedKeys]}
-          openKeys={openKeys}
-          mode="inline"
-          theme="dark"
-          inlineCollapsed={isPhone ? false : isCollapsed}
-          items={handleFilterMenus(menus)}
-          onClick={onClick}
-          onOpenChange={onOpenChange}
-        />
+        >
+          {t('public.currentName')}
+        </h3>
       </div>
-
-      {isPhone && !isCollapsed && (
-        <div
-          className={`
-            ${styles.cover}
-            fixed
-            w-full
-            h-full
-            bg-gray-500
-            bg-opacity-10
-            z-1001
-          `}
-          onClick={hiddenMenu}
-        />
-      )}
-    </>
+      <Menu
+        theme={theme}
+        className="flex-1 overflow-auto"
+        selectedKeys={[selectedKeys]}
+        openKeys={openKeys}
+        mode="inline"
+        inlineCollapsed={isPhone ? false : isCollapsed}
+        items={handleFilterMenus(menus)}
+        onClick={onClick}
+        onOpenChange={onOpenChange}
+      />
+    </Sider>
   );
 }
 

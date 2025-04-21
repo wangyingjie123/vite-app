@@ -1,6 +1,7 @@
 import { SearchOutlined, ClearOutlined, DownOutlined } from '@ant-design/icons';
 import { ColProps, FormInstance, FormProps, Button, Col, Flex } from 'antd';
 import { Form } from 'antd';
+import classnames from 'classnames';
 import { type CSSProperties, type ReactNode, type Ref, forwardRef, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,10 +11,10 @@ import { getComponent } from '@/components/Form/utils/componentMap';
 import { filterEmptyStr, filterFormItem, handleValuePropName } from '@/components/Form/utils/helper';
 import { useCommonStore } from '@/hooks/useCommonStore';
 
-interface Props extends FormProps {
+interface Props<T = FormData> extends FormProps {
   list: SearchList[];
-  data: FormData;
-  initSearch?: FormData;
+  data: T;
+  initSearch?: T;
   isLoading?: boolean;
   isSearch?: boolean;
   isClear?: boolean;
@@ -185,7 +186,7 @@ const BaseSearch = forwardRef(function name(props: Props, ref: Ref<FormInstance>
           <Button
             type="primary"
             htmlType="submit"
-            className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}
+            className={`${isPhone ? 'mr-5px' : ''}`}
             loading={isLoading}
             icon={<SearchOutlined />}
           >
@@ -196,7 +197,7 @@ const BaseSearch = forwardRef(function name(props: Props, ref: Ref<FormInstance>
 
       {!!isClear && (
         <Form.Item>
-          <Button className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`} icon={<ClearOutlined />} onClick={onClear}>
+          <Button className={`${isPhone ? 'mr-5px' : ''}`} icon={<ClearOutlined />} onClick={onClear}>
             {t('public.clear')}
           </Button>
         </Form.Item>
@@ -204,7 +205,7 @@ const BaseSearch = forwardRef(function name(props: Props, ref: Ref<FormInstance>
 
       {children && (
         <Form.Item>
-          <div className={`!mb-5px ${isPhone ? 'mr-5px' : ''}`}>{children}</div>
+          <div className={`${isPhone ? 'mr-5px' : ''}`}>{children}</div>
         </Form.Item>
       )}
 
@@ -223,14 +224,15 @@ const BaseSearch = forwardRef(function name(props: Props, ref: Ref<FormInstance>
   );
 
   return (
-    <div id="searches" style={style} className={className}>
+    <div id="searches" style={style} className={classnames('base-search', className)}>
       <Form
-        layout={isPhone ? 'horizontal' : 'inline'}
+        layout={'inline'}
         {...formProps}
         ref={ref}
         form={form}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
+        className="base-search-form"
         autoComplete="off"
       >
         {(type === 'default' || isPhone) && (
@@ -239,7 +241,7 @@ const BaseSearch = forwardRef(function name(props: Props, ref: Ref<FormInstance>
               <Form.Item
                 {...filterFormItem(item)}
                 key={`${item.name}`}
-                className={`${item?.className || ''} !mb-5px`}
+                className={`${item?.className || ''}`}
                 labelCol={getLabelCol(item)}
                 wrapperCol={getWrapperCol(item)}
                 valuePropName={handleValuePropName(item.component)}
@@ -254,10 +256,14 @@ const BaseSearch = forwardRef(function name(props: Props, ref: Ref<FormInstance>
         {type === 'grid' && !isPhone && (
           <Flex wrap className="w-full">
             {filterList(list)?.map((item) => (
-              <div key={`${item.name}`} style={{ width: item.hidden ? 0 : `${100 / defaultColCount}%` }}>
+              <div
+                key={`${item.name}`}
+                style={{ width: item.hidden ? 0 : `${100 / defaultColCount}%` }}
+                className="mb-10px"
+              >
                 <Form.Item
                   {...filterFormItem(item)}
-                  className={`${item?.className || ''} !mb-5px`}
+                  className={`${item?.className || ''}`}
                   labelCol={getLabelCol(item)}
                   wrapperCol={getWrapperCol(item)}
                   valuePropName={handleValuePropName(item.component)}

@@ -1,15 +1,16 @@
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import type { FormProps } from 'antd';
 import { message, Form, Button, Input } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { loadScript, removeScriptById } from './loadscript';
 import type { LoginData } from './model';
 
 import type { SideMenu } from '#/public';
 import Logo from '@/assets/images/logo.svg';
-import I18n from '@/components/I18n';
+// import I18n from '@/components/I18n';
 import Theme from '@/components/Theme';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { useToken } from '@/hooks/useToken';
@@ -18,7 +19,7 @@ import { login } from '@/servers/login';
 import { getPermissions } from '@/servers/permissions';
 import { getMenuList } from '@/servers/system/menu';
 import { useMenuStore, useUserStore } from '@/stores';
-import { usePublicStore, type ThemeType } from '@/stores/public';
+import type { ThemeType } from '@/stores/public';
 import { PASSWORD_RULE, THEME_KEY } from '@/utils/config';
 
 function Login() {
@@ -26,25 +27,27 @@ function Login() {
   const navigate = useNavigate();
   const [getToken, setToken] = useToken();
   const [isLoading, setLoading] = useState(false);
+  const myRef = useRef(null);
   const [messageApi, contextHolder] = message.useMessage();
   const { search } = useLocation();
   const { permissions, menuList } = useCommonStore();
   const setMenuList = useMenuStore((state) => state.setMenuList);
-  const setThemeValue = usePublicStore((state) => state.setThemeValue);
   const { setPermissions, setUserInfo } = useUserStore((state) => state);
   const themeCache = (localStorage.getItem(THEME_KEY) || 'light') as ThemeType;
-
-  useEffect(() => {
-    if (!themeCache) {
-      localStorage.setItem(THEME_KEY, 'light');
+  const init = async () => {
+    try {
+      await loadScript('https://cdn.jsdelivr.net/npm/three@0.125.0/build/three.min.js', 'three');
+      await loadScript('https://cdn.jsdelivr.net/npm/vanta/dist/vanta.birds.min.js', 'vanta');
+      const VANTA = (window as any).VANTA;
+      VANTA.BIRDS({
+        el: myRef.current,
+      });
+    } catch (error) {
+      console.error('Error loading scripts:', error);
     }
-    if (themeCache === 'dark') {
-      document.body.className = 'theme-dark';
-    }
-    setThemeValue(themeCache === 'dark' ? 'dark' : 'light');
-  }, [themeCache]);
-
+  };
   useEffect(() => {
+    init();
     // 如果存在token，则直接进入页面
     if (getToken()) {
       // 如果不存在缓存则获取权限
@@ -55,6 +58,10 @@ function Login() {
         handleGoMenu(permissions);
       }
     }
+    return () => {
+      removeScriptById('three');
+      removeScriptById('vanta');
+    };
   }, []);
 
   /** 获取用户权限 */
@@ -159,6 +166,7 @@ function Login() {
     <>
       {contextHolder}
       <div
+        ref={myRef}
         className={`
         ${themeCache === 'dark' ? 'bg-black text-white' : 'bg-light-400'}
         w-screen
@@ -166,8 +174,8 @@ function Login() {
         relative
       `}
       >
-        <div className="flex absolute top-5 right-5">
-          <I18n />
+        <div className="flex gap-20px absolute top-15px right-15px">
+          {/* <I18n /> */}
           <Theme />
         </div>
         <div
@@ -181,8 +189,8 @@ function Login() {
           absolute
           left-1/2
           top-1/2
-          -translate-x-1/2
           -translate-y-1/2
+          -translate-x-1/2
         `}
         >
           <div className="pb-30px pt-10px flex items-center justify-center">

@@ -31,7 +31,7 @@ interface TabsState {
   setNav: (nav: NavData[]) => void;
   switchTabsLang: (label: string) => void;
   addTabs: (payload: TabsData) => void;
-  closeTabs: (payload: string) => void;
+  closeTabs: (payload: string, navigate: NavigateFunction) => void;
   closeTabGoNext: (payload: TabsGoNext) => void;
   closeLeft: (payload: string) => void;
   closeRight: (payload: string) => void;
@@ -68,10 +68,9 @@ export const useTabsStore = create<TabsState>()(
             if (!has) tabs.push(payload);
 
             if (tabs.length) tabs[0].closable = tabs.length > 1;
-
             return { tabs };
           }),
-        closeTabs: (payload) =>
+        closeTabs: (payload, navigate) =>
           set((state) => {
             const { tabs } = state;
             const index = tabs.findIndex((item) => item.key === payload);
@@ -79,12 +78,13 @@ export const useTabsStore = create<TabsState>()(
 
             if (payload === state.activeKey) {
               let target = '';
-              if (index === 0) {
+              if (index < tabs.length) {
                 target = tabs?.[index]?.key || '';
               } else {
                 target = tabs[index - 1]?.key || '';
               }
               set({ activeKey: target });
+              navigate(target);
             }
 
             if (tabs.length) tabs[0].closable = tabs.length > 1;

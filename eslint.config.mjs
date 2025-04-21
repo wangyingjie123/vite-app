@@ -61,6 +61,7 @@ const flatConfig = [
     rules: {
       ...reactPlugin.configs.recommended.rules,
       'react/react-in-jsx-scope': 0,
+      'react/prop-types': 0,
     },
     settings: {
       react: {

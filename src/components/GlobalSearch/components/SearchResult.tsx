@@ -54,7 +54,7 @@ function SearchResult(props: Props) {
   return (
     <>
       {!list?.length && (
-        <div className="flex flex-col items-center pt-5 text-warm-gray-400">
+        <div className="flex flex-col items-center pt-15px pb-10px text-warm-gray-400">
           <Icon className="text-40px" icon="mdi:archive-cancel-outline" />
           <span className="mt-1">{t('public.notSearchContent')}</span>
         </div>

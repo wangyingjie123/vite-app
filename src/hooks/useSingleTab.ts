@@ -59,10 +59,6 @@ export function useSingleTab(fatherPath: string, title?: string, name = 'id') {
     [pathname, search]
   );
 
-  useEffect(() => {
-    handleAddTab();
-  }, [handleAddTab]);
-
   useEffectOnActive(() => {
     handleAddTab();
   }, []);

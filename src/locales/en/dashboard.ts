@@ -1,12 +1,10 @@
 export default {
   title: 'Dashboard',
-  rechargeRankingDay: 'Recharge ranking of the day',
-  rechargeAmount: 'Recharge amount',
+  fileNumber: 'Number of file',
   usersNumber: 'Number of users',
-  orderNumber: 'Number of order',
-  gameNumber: 'Number of games',
+  folderNumber: 'Number of order',
+  uploadToday: 'Upload of today',
   gameID: 'game ID',
-  effectiveRechargeRatio: 'Effective recharge ratio',
   cooperativeCompany: 'Cooperative company',
   fullServerRecharge: 'Full server recharge',
 };

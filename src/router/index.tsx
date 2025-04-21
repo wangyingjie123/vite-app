@@ -41,7 +41,7 @@ export default function Page() {
           algorithm: [theme === 'dark' ? darkAlgorithm : defaultAlgorithm],
         }}
       >
-        <App>
+        <App className="w-full h-full">
           <StaticMessage />
           <RouterPage />
         </App>

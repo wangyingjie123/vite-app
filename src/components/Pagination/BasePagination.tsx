@@ -24,10 +24,10 @@ function BasePagination(props: PaginationProps) {
         justify-end
         min-h-40px
         box-border
-        z-999
+        mt-10px
       `}
     >
-      <Pagination showSizeChanger showQuickJumper size="small" showTotal={showTotal} {...props} />
+      <Pagination showSizeChanger showQuickJumper showTotal={showTotal} {...props} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react';
-import { Skeleton, message } from 'antd';
+import { Skeleton, message, Layout } from 'antd';
 import { KeepAlive, useKeepAliveRef } from 'keepalive-for-react';
 import { debounce } from 'lodash';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -7,7 +7,7 @@ import { useOutlet, useLocation } from 'react-router-dom';
 
 import Header from './components/Header';
 import Menu from './components/Menu';
-import Tabs from './components/Tabs';
+// import Tabs from './components/Tabs';
 import styles from './index.module.less';
 import { versionCheck } from './utils/helper';
 
@@ -18,7 +18,8 @@ import { getPermissions } from '@/servers/permissions';
 import { getMenuList } from '@/servers/system/menu';
 import { useMenuStore, useUserStore } from '@/stores';
 
-function Layout() {
+const { Content } = Layout;
+function Main() {
   const [getToken] = useToken();
   const { pathname, search } = useLocation();
   const token = getToken();
@@ -29,7 +30,7 @@ function Layout() {
   const { setPermissions, setUserInfo } = useUserStore((state) => state);
   const { setMenuList, toggleCollapsed, togglePhone } = useMenuStore((state) => state);
 
-  const { permissions, userId, isMaximize, isCollapsed, isPhone, isRefresh } = useCommonStore();
+  const { permissions, userId, isMaximize, isRefresh } = useCommonStore();
 
   /** 获取用户信息和权限 */
   const getUserInfo = useCallback(async () => {
@@ -99,33 +100,29 @@ function Layout() {
   }, [pathname, search]);
 
   return (
-    <div id="layout">
+    <Layout hasSider className="w-full h-full min-w-1080px overflow-hidden">
       {contextHolder}
       <Menu />
-      <div className={styles.layout_right}>
+      <Content className="flex flex-col flex-1 overflow-hidden">
         <div
           id="header"
           className={`
             border-bottom
             transition-all
             ${styles.header}
-            ${isCollapsed ? styles['header-close-menu'] : ''}
             ${isMaximize ? styles['header-none'] : ''}
-            ${isPhone ? `!left-0 z-999` : ''}
           `}
         >
           <Header />
-          <Tabs />
+          {/* <Tabs /> */}
         </div>
         <div
           id="layout-content"
           className={`
             overflow-auto
             transition-all
-            ${styles.con}
-            ${isMaximize ? styles['con-maximize'] : ''}
-            ${isCollapsed ? styles['con-close-menu'] : ''}
-            ${isPhone ? `!left-0 !w-full` : ''}
+            flex-1
+            ${styles['layout-content']}
           `}
         >
           {isLoading && permissions.length === 0 && <Skeleton active className="p-30px" paragraph={{ rows: 10 }} />}
@@ -149,9 +146,9 @@ function Layout() {
             </KeepAlive>
           )}
         </div>
-      </div>
-    </div>
+      </Content>
+    </Layout>
   );
 }
 
-export default Layout;
+export default Main;

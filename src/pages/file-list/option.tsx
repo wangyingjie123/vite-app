@@ -41,7 +41,7 @@ const initCreate = {
 };
 
 // 父路径
-const fatherPath = '/content/article';
+const fatherPath = '/demo/fileList';
 
 function Page() {
   const { t } = useTranslation();
@@ -153,7 +153,7 @@ function Page() {
         </div>
       </BaseCard>
 
-      <SubmitBottom isLoading={isLoading} goBack={() => goBack()} handleSubmit={handleSubmit} />
+      <SubmitBottom isLoading={isLoading} goBack={goBack} handleSubmit={handleSubmit} />
     </BaseContent>
   );
 }

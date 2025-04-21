@@ -1,3 +1,4 @@
+import type { FileData } from '#/file';
 import type { FormData } from '#/form';
 import type { PageServerResult, PaginationData } from '#/public';
 import { request } from '@/utils/request';
@@ -10,8 +11,8 @@ enum API {
  * 获取分页数据
  * @param data - 请求数据
  */
-export function getArticlePage(data: Partial<FormData> & PaginationData) {
-  return request.get<PageServerResult<FormData[]>>(`${API.URL}/page`, { params: data });
+export function getArticlePage(data: Partial<FileData> & PaginationData) {
+  return request.get<PageServerResult<FileData[]>>(`${API.URL}/page`, { params: data });
 }
 
 /**

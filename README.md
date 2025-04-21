@@ -1,12 +1,10 @@
 <div align="center">
-	<h1>React Admin</h1>
+	<h1>AI数据管理平台</h1>
 </div>
-
 
 ## ✨ 简介
 
 使用`React19`,`Typescript`,`Vite`,`Antd5.0`等主流技术开发的开箱即用的中后台前端项目，`Vite`实现自动生成路由，支持`KeepAlive`功能，`zustand`状态管理，支持虚拟滚动表格，`UnoCss`开发样式。
-
 
 ## 💻 安装使用
 
@@ -29,6 +27,7 @@ npm i -g pnpm
 ```
 
 - 安装依赖
+
 ```bash
 pnpm install -w
 ```
@@ -91,12 +90,15 @@ react-admin
 - VS Code安装Iconify IntelliSense - 图标内联显示和自动补全
 
 ## 🎗️ Git 提交示例
+
 ### Git提交不规范会导致无法提交，`feat`关键字可以按照下面`Git 贡献提交规范`来替换。
+
 ```
 git add .
 git commit -m "feat: 新增功能"
 git push
 ```
+
 ### 按照以上规范依旧无法提交代码，请在终端执行`npx husky install`之后重新提交。
 
 ## 🎯 Git 贡献提交规范
@@ -118,34 +120,41 @@ git push
   - `wip` 开发中
 
 ## 🐵 关于封装
-  1. 功能扩展，在原有的api上拓展。
-  2. 功能整合，合并两个或两个以上组件的api。
-  3. 样式统一，避免后期样式变动，导致牵一发而动全身。
-  4. 公共组件二次封装或常用组件使用**Base**开头，便于区分。
+
+1. 功能扩展，在原有的api上拓展。
+2. 功能整合，合并两个或两个以上组件的api。
+3. 样式统一，避免后期样式变动，导致牵一发而动全身。
+4. 公共组件二次封装或常用组件使用**Base**开头，便于区分。
 
 ## 📕 Q&A常见问题
+
 #### 1. 页面权限如何配置？
+
 1. 通过登录接(/user/login)或重新授权接口(/user/refresh-permissions)获取permissions权限数据。
 2. 通过菜单接口(/menu/list)获取data中的rule权限数据，这个rule数据影响菜单显示，如果没返回rule则一直都显示。
 3. 页面内权限参考src/pages/system/menu.index.tsx文件内的pagePermission数据，pagePermission.page是显示页面的权限，根据第一点返回的permissions进行匹配。
 
 #### 2. 路由如何配置？
+
 路由根据文件夹路径自动生成，路径包含以下文件名或文件夹名称则不生成：
 
-* components
-* utils
-* lib
-* hooks
-* model.tsx
-* 404.tsx
+- components
+- utils
+- lib
+- hooks
+- model.tsx
+- 404.tsx
 
 可自行在 src/router/utils/config.ts 修改路由生成规则。
 
 #### 3. 菜单如何配置？
+
 提供了两种方式配置菜单：
+
 1. 动态菜单，通过菜单接口(/menu/list)获取菜单数据。
 2. 静态菜单，需要静态菜单将/src/hooks/useCommonStore.ts中的useCommonStore中的menuList改为defaultMenus。
-```js
+
+```
 // src/hooks/useCommonStore.ts
 import { defaultMenus } from '@/menus';
 
@@ -155,8 +164,9 @@ const menuList = defaultMenus;
 ```
 
 #### 4. @south/xxx依赖在哪查看？
+
 通过根目录`packages`文件中查看对于xxx文件的源码进行修改。
 
 #### 5. 安装新依赖时报错？
-使用了monorepo项目安装新依赖时需要在后面添加`-w`或`--workspace`，否则会报错，比如：`pnpm i prettier -D -w`。
 
+使用了monorepo项目安装新依赖时需要在后面添加`-w`或`--workspace`，否则会报错，比如：`pnpm i prettier -D -w`。

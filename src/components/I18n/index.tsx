@@ -45,7 +45,7 @@ function I18n() {
   return (
     <Dropdown placement="bottom" trigger={['click']} menu={{ items, onClick }}>
       <div className="ant-dropdown-link flex items-center cursor-pointer" onClick={(e) => e.preventDefault()}>
-        <Icon className="flex items-center justify-center text-lg mr-3 cursor-pointer" icon="cil:language" />
+        <Icon className="flex items-center justify-center text-lg cursor-pointer" icon="cil:language" />
       </div>
     </Dropdown>
   );

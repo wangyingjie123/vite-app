@@ -1,18 +1,15 @@
 import type { EChartsCoreOption } from 'echarts';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useCommonStore } from '@/hooks/useCommonStore';
 import { useEcharts } from '@/hooks/useEcharts';
 
 const data = [962, 1023, 1112, 1123, 1239, 1382, 1420, 1523, 1622, 1643, 1782, 1928];
 
 function Bar() {
   const { t } = useTranslation();
-  const { permissions } = useCommonStore();
   const option: EChartsCoreOption = {
     title: {
-      text: t('dashboard.rechargeRankingDay'),
+      text: '当日上传排行',
       left: 30,
       top: 5,
     },
@@ -51,23 +48,17 @@ function Bar() {
     },
     series: [
       {
-        name: t('dashboard.rechargeAmount'),
+        name: t('dashboard.fileNumber'),
         type: 'bar',
         data,
       },
     ],
   };
 
-  const [echartsRef, init] = useEcharts(option, data);
-
-  useEffect(() => {
-    if (permissions.length && echartsRef.current) {
-      init();
-    }
-  }, [echartsRef]);
+  const [echartsRef] = useEcharts(option, data);
 
   return (
-    <div className="h-550px border border-gray-200 rounded-10px">
+    <div className="h-550px w-full border border-gray-200 rounded-10px">
       <div ref={echartsRef} className="w-full h-full"></div>
     </div>
   );

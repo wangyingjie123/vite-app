@@ -1,4 +1,5 @@
 import type { BreadcrumbProps } from 'antd';
+import classnames from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -45,11 +46,13 @@ function Nav(props: Props) {
   return (
     <>
       {!isPhone && (
-        <div className={`${className} flex items-center text-truncate ellipsis break-all`}>
+        <div className={classnames(className, 'flex', 'items-center', 'text-truncate', 'ellipsis', 'break-all')}>
           {nav?.map((item, index) => (
             <span key={index}>
               {index !== 0 && <span className="px-4px color-#000073 breadcrumb-separator">/</span>}
-              <span className={`px-4px ${index !== nav.length - 1 ? 'breadcrumb-separator' : ''}`}>{item.title}</span>
+              <span className={classnames(`px-4px ${index !== nav.length - 1 ? 'breadcrumb-separator' : ''}`)}>
+                {item.title}
+              </span>
             </span>
           ))}
         </div>

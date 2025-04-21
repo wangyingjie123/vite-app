@@ -20,10 +20,10 @@ import UpdatePassword from './UpdatePassword';
 
 import Avatar from '@/assets/images/avatar.png';
 import Fullscreen from '@/components/Fullscreen';
-import Github from '@/components/Github';
-import GlobalSearch from '@/components/GlobalSearch';
-import I18n from '@/components/I18n';
 import Theme from '@/components/Theme';
+import UploadTransfer from '@/components/Upload/UploadTransfer';
+// import GlobalSearch from '@/components/GlobalSearch';
+// import I18n from '@/components/I18n';
 import { useCommonStore } from '@/hooks/useCommonStore';
 import { useToken } from '@/hooks/useToken';
 import { useMenuStore, useTabsStore, useUserStore } from '@/stores';
@@ -93,11 +93,11 @@ function Header() {
   /** 右侧组件抽离减少重复渲染 */
   const RightRender = () => {
     return (
-      <div className="flex items-center">
-        <Github />
-        <GlobalSearch />
+      <div className="flex gap-20px items-center">
+        <UploadTransfer />
         <Fullscreen />
-        <I18n />
+        {/* <GlobalSearch /> */}
+        {/* <I18n /> */}
         <Theme />
         <Dropdown className="min-w-50px" menu={{ items, onClick }}>
           <div className="ant-dropdown-link flex items-center cursor-pointer" onClick={(e) => e.preventDefault()}>
@@ -118,7 +118,7 @@ function Header() {
   /** icon渲染 */
   const IconRender = () => {
     return (
-      <div className="text-lg cursor-pointer" onClick={() => toggleCollapsed(!isCollapsed)}>
+      <div className="text-lg cursor-pointer mr-15px" onClick={() => toggleCollapsed(!isCollapsed)}>
         {isCollapsed && <MenuUnfoldOutlined />}
         {!isCollapsed && <MenuFoldOutlined />}
       </div>
@@ -138,13 +138,13 @@ function Header() {
           box-border
           transition-all
           ${styles['header-driver']}
-          ${isMaximize ? styles.none : ''}
+          ${isMaximize ? styles['hide'] : ''}
         `}
       >
         <div className="flex item-center">
           <IconRender />
 
-          <Nav className="ml-15px" list={nav} />
+          <Nav list={nav} />
         </div>
 
         <RightRender />

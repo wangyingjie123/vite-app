@@ -22,5 +22,5 @@ export function useFullscreen() {
     }
   };
 
-  return [isFullscreen, toggleFullscreen] as const;
+  return [isFullscreen, toggleFullscreen, setFullscreen] as const;
 }

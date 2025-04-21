@@ -1,6 +1,7 @@
 import { encryptMd5 } from '@south/utils';
 import axios from 'axios';
 import type { AxiosResponse } from 'axios';
+import { throttle } from 'lodash';
 import pLimit from 'p-limit';
 
 type UploadStatus = 'uploading' | 'success' | 'error';
@@ -8,6 +9,7 @@ interface UploadEvent {
   status: UploadStatus;
   progress: number;
   message?: string;
+  speed?: string;
 }
 interface UploadProps {
   file: File;
@@ -17,7 +19,7 @@ interface UploadProps {
   maxChunkNum?: number;
 }
 interface UploadItem {
-  formData: FormData;
+  loaded: number;
   cancel: () => void;
 }
 interface GlobalRes<T> {
@@ -53,13 +55,16 @@ export class BigFileUpload {
 
   private readonly limit = pLimit(6);
   private readonly defaultChunkSize = 5;
-  private readonly defaultMaxChunkNum = 200;
+  private readonly defaultMaxChunkNum = 1024;
+  private readonly retryDelay = 500;
 
   private notUploadListMap: Map<number, UploadItem> = new Map(); // 待上传分片列表
   private count: number = 0; // 分片总数
   private fileSize: number = 0; // 已经上传的文件大小
   private replace: '0' | '1' = '0'; // 相同文件是否覆盖
   private paused: boolean = false;
+  private lastTime: number = 0;
+  private lastLoaded: number = 0;
   constructor(props: UploadProps) {
     const { file, chunkSize, replace, maxChunkNum, onChange } = props;
     this.file = file;
@@ -101,7 +106,7 @@ export class BigFileUpload {
     }
     return chunks;
   }
-  async getUploadList() {
+  async getUploadList(isFirst = true) {
     try {
       const { hash, suffix } = this;
       const { data }: AxiosResponse<GetChunkRes> = await axios.get('/file_service/api/upload/get_chunks', {
@@ -126,13 +131,11 @@ export class BigFileUpload {
       }
       let uploadList = this.chunks;
       if (fileList.length > 0) {
-        this.fileSize = this.file.size - fileList.length * this.chunkSize;
         const set = new Set(fileList);
         uploadList = this.chunks.filter((chunk) => !set.has(chunk.filename));
-        this.onChange?.({
-          status: 'uploading',
-          progress: (fileList.length * this.chunkSize) / this.fileSize,
-        });
+        if (isFirst) {
+          this.fileSize = this.file.size - fileList.length * this.chunkSize;
+        }
       }
       if (filename) {
         this.onChange({
@@ -184,29 +187,27 @@ export class BigFileUpload {
         progress: 1,
         message: `合并失败 ${e}`,
       });
+    } finally {
+      this.throttleUploadFeedback.cancel();
     }
   }
-  uploadFile({ formData, index, onCancel }: UploadParams, retryTimes = 3) {
+  uploadFile({ formData, index }: UploadParams, retryTimes = 3) {
     return new Promise((resolve, reject) => {
       const controller = new AbortController();
       const signal = controller.signal;
-
+      this.notUploadListMap.set(index, { loaded: 0, cancel: () => controller.abort() });
       const attemptUpload = async (remainingRetries: number) => {
         try {
           await axios.post('/file_service/api/upload', formData, {
             signal,
+            headers: { 'content-type': 'multipart/form-data' },
             onUploadProgress: ({ loaded }) => {
+              this.notUploadListMap.set(index, { loaded, cancel: () => controller.abort() });
               if (this.chunks[index].loaded < loaded) {
                 this.chunks[index].loaded = loaded;
               }
-              const currentProgress = this.chunks.reduce((acc, cur) => acc + cur.loaded, 0);
-              const progress = currentProgress / this.fileSize;
-              this.onChange?.({
-                status: 'uploading',
-                progress,
-              });
+              this.throttleUploadFeedback();
             },
-            headers: { 'content-type': 'multipart/form-data' },
           });
           this.notUploadListMap.delete(index);
           resolve('upload success');
@@ -217,7 +218,7 @@ export class BigFileUpload {
           }
           if (remainingRetries > 0) {
             console.log(`重试上传序号 ${index} 分片，剩余重试次数: ${remainingRetries - 1}`);
-            await new Promise((res) => setTimeout(res, 1000)); // **等待 1 秒再重试**
+            await new Promise((res) => setTimeout(res, this.retryDelay));
             attemptUpload(remainingRetries - 1);
           } else {
             this.onChange?.({
@@ -225,20 +226,34 @@ export class BigFileUpload {
               progress: 1,
               message: `上传序号 ${index} 分片失败`,
             });
+            this.limit.clearQueue();
             reject(new Error(`上传序号 ${index} 分片失败`));
           }
         }
       };
 
       attemptUpload(retryTimes);
-
-      // 提供取消上传的功能
-      if (typeof onCancel === 'function') {
-        onCancel(() => controller.abort());
-      }
     });
   }
-
+  // 节流上传反馈
+  throttleUploadFeedback = throttle(() => {
+    const currentTime = Date.now();
+    const elapsedTime = (currentTime - this.lastTime) / 1000; // 秒
+    let allLoaded = 0;
+    this.notUploadListMap.forEach((item) => {
+      allLoaded += item.loaded;
+    });
+    const speed = (allLoaded - this.lastLoaded) / elapsedTime;
+    const currentLoaded = this.chunks.reduce((acc, cur) => acc + cur.loaded, 0);
+    const progress = currentLoaded / this.fileSize;
+    this.onChange?.({
+      status: 'uploading',
+      progress,
+      speed: speed > 0 ? formatSpeed(speed) : '',
+    });
+    this.lastTime = currentTime;
+    this.lastLoaded = allLoaded;
+  }, 1000);
   createRequestList(chunkList: Chunk[]) {
     const requestList = chunkList
       .map(({ file, filename }) => {
@@ -252,9 +267,6 @@ export class BigFileUpload {
           this.uploadFile({
             formData,
             index,
-            onCancel: (cancel) => {
-              this.notUploadListMap.set(index, { formData, cancel });
-            },
           })
         )
       );
@@ -263,13 +275,38 @@ export class BigFileUpload {
   // 继续上传
   resumeUpload() {
     this.paused = false;
-    this.getUploadList();
+    this.getUploadList(false);
   }
   pauseUpload() {
     this.paused = true;
     this.notUploadListMap.forEach(({ cancel }) => cancel());
     this.limit.clearQueue();
     this.notUploadListMap.clear();
+    // 取消节流函数的执行
+    this.throttleUploadFeedback.cancel();
   }
   static getChunkSize = (size: number) => size * 1024 * 1024;
 }
+
+export const formatSpeed = (speed: number) => {
+  if (speed > Math.pow(1024, 2)) {
+    return (speed / Math.pow(1024, 2)).toFixed(2) + ' MB/s';
+  } else if (speed > 1024) {
+    return (speed / 1024).toFixed(2) + ' KB/s';
+  } else if (speed > 0) {
+    return speed.toFixed(2) + ' B/s';
+  } else {
+    return '--';
+  }
+};
+export const formatSize = (size: number) => {
+  if (size > Math.pow(1024, 3)) {
+    return (size / Math.pow(1024, 3)).toFixed(2) + ' GB';
+  } else if (size > Math.pow(1024, 2)) {
+    return (size / Math.pow(1024, 2)).toFixed(2) + ' MB';
+  } else if (size > 1024) {
+    return (size / 1024).toFixed(2) + ' KB';
+  } else {
+    return size + ' B';
+  }
+};

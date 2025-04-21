@@ -47,8 +47,21 @@
 /* 主题:结束 */
 
 /* 表单:开始 */
-.ant-form-inline .ant-form-item {
-  margin-right: 10px !important;
+.base-search {
+  .base-search-form{
+    .ant-form-item {
+      margin-bottom: 0;
+      margin-right: 10px;
+    }
+    .ant-form-item:last-child {
+      margin-right: 0;
+    }
+  }
+}
+.base-search-form.ant-form-inline .ant-form-item {
+  &:last-child {
+    margin-right: 0;
+  }
 }
 
 /* 表单:结束 */

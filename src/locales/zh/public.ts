@@ -21,7 +21,7 @@ export default {
   checkAllWarning: '表格筛选必须勾选一个',
   fullScreen: '全屏',
   exitFullscreen: '退出全屏',
-  themes: '主题模式',
+  themes: '{{name}}模式',
   changePassword: '修改密码',
   signOut: '退出登录',
   signOutMessage: '是否确定退出系统？',

@@ -105,7 +105,7 @@ function FilterButton(props: Props) {
           ))}
         </Checkbox.Group>
 
-        <Divider className="!mt-10px !mb-5px" />
+        <Divider />
 
         <div className="flex justify-end px-10px">
           <Button size="small" className="mr-5px" onClick={handleClick}>
